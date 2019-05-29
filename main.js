@@ -43,17 +43,14 @@ app.get('/dice', (req, res) => {
         numRolls = 1;
     }
 
+    let rolls = multipleRolls(numRolls);
+
+    res.status(200);
+
     res.format({
         'text/html': () => {
             if (checkNumRollsIsValid(numRolls)) {
-                res.status(200);
                 res.type('text/html');
-                let rolls = multipleRolls(numRolls);
-                // let result = rolls.reduce((accumulator, currentValue) => {
-                //     return accumulator += `<img src='/images/dice/d${currentValue}.png'>\n`;
-                // }, "");
-                // res.send(result);
-
                 res.render('dice', {diceRolls: rolls});
             }
             else {
@@ -62,10 +59,8 @@ app.get('/dice', (req, res) => {
         },
         'text/csv': () => {
             if (checkNumRollsIsValid(numRolls)) {
-                res.status(200);
                 res.type('text/csv');
-                let result = multipleRolls(numRolls);
-                res.send(result.join(','));
+                res.send(rolls.join(','));
             } 
             else {
                 sendNumRollsError(numRolls, res);
@@ -73,9 +68,7 @@ app.get('/dice', (req, res) => {
         },
         'application/json': () => {
             if (checkNumRollsIsValid(numRolls)) {
-                res.status(200);
                 res.type('application/json');
-                let rolls = multipleRolls(numRolls);
                 res.json({count: numRolls, rolls: rolls});
             }
             else {
