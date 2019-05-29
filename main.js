@@ -64,10 +64,8 @@ app.get('/dice', (req, res) => {
             if (checkNumRollsIsValid(numRolls)) {
                 res.status(200);
                 res.type('text/csv');
-                let result = multipleRolls(numRolls).reduce((accumulator, currentValue) => {
-                    return accumulator += `${currentValue},`;
-                }, '');
-                res.send(result.substring(0, result.length - 1));
+                let result = multipleRolls(numRolls);
+                res.send(result.join(','));
             } 
             else {
                 sendNumRollsError(numRolls, res);
