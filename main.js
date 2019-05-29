@@ -49,11 +49,12 @@ app.get('/dice', (req, res) => {
                 res.status(200);
                 res.type('text/html');
                 let rolls = multipleRolls(numRolls);
-                let result = rolls.reduce((accumulator, currentValue) => {
-                    return accumulator += `<img src='/images/dice/d${currentValue}.png'>\n`;
-                }, "");
+                // let result = rolls.reduce((accumulator, currentValue) => {
+                //     return accumulator += `<img src='/images/dice/d${currentValue}.png'>\n`;
+                // }, "");
                 // res.send(result);
-                res.render('dice', {diceImage: result});
+
+                res.render('dice', {diceRolls: rolls});
             }
             else {
                 sendNumRollsError(numRolls, res);
