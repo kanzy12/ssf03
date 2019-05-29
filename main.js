@@ -5,9 +5,9 @@ const PORT = parseInt(process.argv[2] || 3000);
 
 const app = express();
 
-// app.engine('hbs', hbs({defaultLayout : 'main.hbs'}));
-// app.set('view engine', 'hbs');
-// app.set('views', __dirname + '/views');
+app.engine('hbs', hbs({defaultLayout : 'main.hbs'}));
+app.set('view engine', 'hbs');
+app.set('views', __dirname + '/views');
 
 var roll = () => {
     return Math.floor(Math.random() * 6) + 1;
@@ -50,9 +50,10 @@ app.get('/dice', (req, res) => {
                 res.type('text/html');
                 let rolls = multipleRolls(numRolls);
                 let result = rolls.reduce((accumulator, currentValue) => {
-                    return accumulator += `<img src='/images/dice/d${currentValue}.png'>`;
+                    return accumulator += `<img src='/images/dice/d${currentValue}.png'>\n`;
                 }, "");
-                res.send(result);
+                // res.send(result);
+                res.render('dice', {diceImage: result});
             }
             else {
                 sendNumRollsError(numRolls, res);
